@@ -1,11 +1,13 @@
-import * as db from './db.js';
-import {
+(function () {
+'use strict';
+const db = window.EvDB;
+const {
   formatRange, formatPoint, formatShort, sortKey, todayPoint, toIso, fromIso,
   MJESECI, formatTimestamp,
-} from './dates.js';
-import {
+} = window.EvDates;
+const {
   exhibitCode, stampDoc, stampedFileName, isImage, isPdf, stickerCanvas,
-} from './stamp.js';
+} = window.EvStamp;
 
 /* =========================================================
    Konstante
@@ -32,7 +34,7 @@ const DEFAULT_LABELS = [
   ['Zdravlje i škola', 100],
 ];
 
-export const VISIT_STATUS = {
+const VISIT_STATUS = {
   'odrzano': { label: 'Održano', cls: 'st-ok', held: true },
   'djelomicno': { label: 'Održano djelomično / skraćeno', cls: 'st-warn', held: true },
   'kasnjenje': { label: 'Održano uz kašnjenje', cls: 'st-warn', held: true },
@@ -1310,3 +1312,4 @@ start();
 
 // Za testiranje u konzoli
 window.__evidencija = { state, formatPoint };
+})();
