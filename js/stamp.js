@@ -1,8 +1,10 @@
+(function () {
+'use strict';
 // Naljepnica dokaza („Prilog predlagatelja P-03") na slikama i PDF-ovima.
 // Naljepnicu crtamo na canvas pa je u PDF ugrađujemo kao sliku – tako
 // hrvatska slova (č, ć, đ, š, ž) uvijek izgledaju ispravno.
 
-export function exhibitCode(settings, no) {
+function exhibitCode(settings, no) {
   const prefix = (settings.prefix || '').trim();
   const num = String(no).padStart(2, '0');
   return prefix ? `${prefix}-${num}` : num;
@@ -19,7 +21,7 @@ function fitText(ctx, text, maxWidth, size, weight, family) {
 }
 
 /** Nacrta naljepnicu širine w na (x, y). Vraća visinu. */
-export function drawSticker(ctx, x, y, w, { title, code, caption }) {
+function drawSticker(ctx, x, y, w, { title, code, caption }) {
   const h = Math.round(w * 0.62);
   const family = 'Arial, Helvetica, sans-serif';
   const pad = w * 0.06;
@@ -58,7 +60,7 @@ export function drawSticker(ctx, x, y, w, { title, code, caption }) {
   return h;
 }
 
-export function stickerCanvas(width, opts) {
+function stickerCanvas(width, opts) {
   const c = document.createElement('canvas');
   c.width = width;
   c.height = Math.round(width * 0.62);
@@ -89,7 +91,7 @@ function placement(position, pageW, pageH, w, h, margin) {
   }
 }
 
-export async function stampImage(blob, opts, position) {
+async function stampImage(blob, opts, position) {
   const img = await loadImage(blob);
   const W = img.naturalWidth;
   const H = img.naturalHeight;
@@ -122,7 +124,7 @@ function loadPdfLib() {
   return pdfLibPromise;
 }
 
-export async function stampPdf(blob, opts, position) {
+async function stampPdf(blob, opts, position) {
   const { PDFDocument } = await loadPdfLib();
   const pdf = await PDFDocument.load(await blob.arrayBuffer(), { ignoreEncryption: true });
   const png = await canvasToBlob(stickerCanvas(600, opts));
@@ -141,16 +143,16 @@ export async function stampPdf(blob, opts, position) {
   return new Blob([bytes], { type: 'application/pdf' });
 }
 
-export function isImage(doc) {
+function isImage(doc) {
   return /^image\/(png|jpe?g|webp|gif|bmp)$/i.test(doc.type || '');
 }
 
-export function isPdf(doc) {
+function isPdf(doc) {
   return doc.type === 'application/pdf' || /\.pdf$/i.test(doc.name || '');
 }
 
 /** Vraća blob dokumenta s naljepnicom (ili original ako vrsta nije podržana). */
-export async function stampDoc(doc, settings) {
+async function stampDoc(doc, settings) {
   const opts = {
     title: settings.stickerTitle,
     code: exhibitCode(settings, doc.exhibitNo),
@@ -161,9 +163,12 @@ export async function stampDoc(doc, settings) {
   return doc.blob;
 }
 
-export function stampedFileName(doc, settings) {
+function stampedFileName(doc, settings) {
   const code = exhibitCode(settings, doc.exhibitNo);
   let name = doc.name || 'dokument';
   if (isImage(doc) && doc.blob.type !== 'image/png') name = name.replace(/\.(png|webp|gif|bmp|jpe?g)$/i, '') + '.jpg';
   return `${code} ${name}`;
 }
+
+window.EvStamp = { exhibitCode, drawSticker, stickerCanvas, stampImage, stampPdf, isImage, isPdf, stampDoc, stampedFileName };
+})();

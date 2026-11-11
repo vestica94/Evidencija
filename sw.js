@@ -1,5 +1,5 @@
 // Service worker: rad bez interneta + primanje datoteka podijeljenih u aplikaciju.
-const VERSION = 'evidencija-v1';
+const VERSION = 'evidencija-v2';
 const SHELL = [
   './',
   'index.html',
