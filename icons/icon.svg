@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#1f3a8a"/>
+  <rect x="132" y="96" width="248" height="320" rx="24" fill="#ffffff"/>
+  <rect x="172" y="160" width="168" height="18" rx="9" fill="#c7d0ea"/>
+  <rect x="172" y="204" width="168" height="18" rx="9" fill="#c7d0ea"/>
+  <rect x="172" y="248" width="110" height="18" rx="9" fill="#c7d0ea"/>
+  <g transform="rotate(-8 330 350)">
+    <rect x="248" y="300" width="164" height="100" fill="#ffe14d" stroke="#111" stroke-width="10"/>
+    <text x="330" y="374" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800" text-anchor="middle" fill="#111">P-1</text>
+  </g>
+</svg>
